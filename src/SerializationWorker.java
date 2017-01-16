@@ -26,7 +26,6 @@ public class SerializationWorker {
                 }
             }
         }
-        System.out.println(builder.toString());
         try {
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path, true), Charset.forName("UTF-8")));
             writer.write(builder.toString());
@@ -43,7 +42,6 @@ public class SerializationWorker {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Serialization is finish...");
     }
 
     public ArrayList<Container> deserialize() {
@@ -52,11 +50,11 @@ public class SerializationWorker {
         Class<?> deserializationClass = container.getClass();
         String path = deserializationClass.getAnnotation(SaveTo.class).path();
         BufferedReader reader = null;
-        String result ;
+        String result;
         try {
             reader = new BufferedReader(new InputStreamReader(new FileInputStream(path), Charset.forName("UTF-8")));
-            while ((result = reader.readLine()) != null){
-               containers =  parsing(result, containers);
+            while ((result = reader.readLine()) != null) {
+                containers = parsing(result, containers);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -66,8 +64,8 @@ public class SerializationWorker {
 
     private ArrayList<Container> parsing(String result, ArrayList<Container> containers) {
         String[] fields = result.split(";");
-        for (int i = 0; i < fields.length;) {
-            containers.add(new Container(fields[i++],fields[i++]));
+        for (int i = 0; i < fields.length; ) {
+            containers.add(new Container(fields[i++], fields[i++]));
         }
         return containers;
     }
